@@ -1,0 +1,1030 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tajawal', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============= لوحة التحكم ============= */
+.dashboard-premium {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar-premium {
+    width: 280px;
+    background: rgba(10, 14, 39, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.logo-side {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo-side i {
+    font-size: 50px;
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-side h3 {
+    color: white;
+    margin-top: 10px;
+}
+
+.logo-side span {
+    color: #ffd700;
+}
+
+.nav-premium {
+    flex: 1;
+}
+
+.nav-item {
+    padding: 15px 20px;
+    margin: 8px 0;
+    border-radius: 60px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+}
+
+.nav-item i {
+    width: 25px;
+    color: #8a2be2;
+}
+
+.nav-item:hover {
+    background: rgba(138, 43, 226, 0.2);
+    transform: translateX(-5px);
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    color: white;
+}
+
+.nav-item.active i {
+    color: white;
+}
+
+.logout-premium {
+    background: rgba(255, 75, 75, 0.2);
+    border: 1px solid #ff4b4b;
+    padding: 12px;
+    border-radius: 60px;
+    color: #ff6b6b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.logout-premium:hover {
+    background: #ff4b4b;
+    color: white;
+}
+
+.content-premium {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.header-premium {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 18px 25px;
+    border-radius: 60px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(5px);
+}
+
+.welcome-premium {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+}
+
+.welcome-premium i {
+    font-size: 28px;
+    color: #ffd700;
+}
+
+.device-premium {
+    background: rgba(0, 191, 255, 0.2);
+    padding: 8px 18px;
+    border-radius: 60px;
+    font-size: 12px;
+    color: #00bfff;
+}
+
+.warning-premium {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid #ffc107;
+    padding: 15px;
+    border-radius: 25px;
+    color: #ffc107;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.section-premium {
+    display: none;
+    animation: fadeInUp 0.5s ease;
+}
+
+.active-section {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-title {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 26px;
+}
+
+/* ============= الملف الشخصي ============= */
+.profile-premium {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 32px;
+    padding: 30px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.avatar-premium i {
+    font-size: 100px;
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.info-premium {
+    flex: 1;
+}
+
+.info-row {
+    margin: 12px 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.info-row i {
+    width: 25px;
+    color: #8a2be2;
+}
+
+/* ============= المدفوعات ============= */
+.payments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payment-item {
+    background: rgba(0, 255, 136, 0.1);
+    border-radius: 16px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #00ff88;
+}
+
+.payment-item i {
+    font-size: 20px;
+}
+
+.payment-item div {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-item strong {
+    color: white;
+}
+
+.payment-item small {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+}
+
+/* ============= نتائج الامتحانات ============= */
+.results-section-inside-profile {
+    margin-top: 35px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 28px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(138, 43, 226, 0.5);
+}
+
+.section-header i {
+    font-size: 28px;
+    color: #ffd700;
+}
+
+.section-header h3 {
+    color: white;
+    font-size: 22px;
+}
+
+.stats-mini {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-mini-card {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 191, 255, 0.2));
+    border-radius: 20px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s;
+}
+
+.stat-mini-card:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.35), rgba(0, 191, 255, 0.35));
+}
+
+.stat-mini-card i {
+    font-size: 32px;
+    color: #ffd700;
+}
+
+.stat-mini-card div {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.results-list {
+    max-height: 350px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.result-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+    border-right: 4px solid;
+}
+
+.result-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-5px);
+}
+
+.result-item.passed {
+    border-right-color: #00ff88;
+}
+
+.result-item.failed {
+    border-right-color: #ff4444;
+}
+
+.result-info h4 {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.result-info .result-date {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.result-score {
+    text-align: center;
+}
+
+.result-score .score-number {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.result-item.passed .score-number {
+    color: #00ff88;
+}
+
+.result-item.failed .score-number {
+    color: #ff4444;
+}
+
+.result-score .score-outof {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.empty-results {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.empty-results i {
+    font-size: 50px;
+    margin-bottom: 15px;
+    color: #ffd700;
+}
+
+/* ============= تبويبات المراحل ============= */
+.stage-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stage-tab {
+    flex: 1;
+    min-width: 180px;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 60px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.stage-tab i {
+    font-size: 20px;
+}
+
+.stage-tab:hover {
+    background: rgba(138, 43, 226, 0.3);
+    transform: translateY(-3px);
+}
+
+.stage-tab.active {
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    border-color: transparent;
+    box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+}
+
+.stage-section {
+    display: none;
+}
+
+.stage-section.active-stage {
+    display: block;
+    animation: fadeInUp 0.4s ease;
+}
+
+/* ============= بطاقات الصفوف ============= */
+.grades-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.grade-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 28px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.grade-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(138, 43, 226, 0.5);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.grade-card.paid {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.05);
+}
+
+.grade-icon i {
+    font-size: 55px;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+}
+
+.grade-card h3 {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.grade-card p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.price-tag {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.2);
+    padding: 5px 15px;
+    border-radius: 60px;
+    font-size: 14px;
+    color: #ffd700;
+    margin: 10px 0;
+}
+
+.payment-status {
+    margin-top: 10px;
+}
+
+.paid-badge {
+    display: inline-block;
+    background: #00ff88;
+    color: #1a1a2e;
+    padding: 4px 12px;
+    border-radius: 60px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.unpaid-badge {
+    display: inline-block;
+    background: rgba(255, 68, 68, 0.2);
+    color: #ff4444;
+    padding: 4px 12px;
+    border-radius: 60px;
+    font-size: 12px;
+}
+
+/* ============= رسالة الدفع المطلوب ============= */
+.payment-required {
+    background: rgba(255, 68, 68, 0.1);
+    border: 2px solid #ff4444;
+    border-radius: 28px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.payment-required i {
+    font-size: 60px;
+    color: #ff4444;
+    margin-bottom: 20px;
+}
+
+.payment-required h3 {
+    color: #ff4444;
+    margin-bottom: 10px;
+}
+
+.payment-required p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+}
+
+.btn-payment {
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    border: none;
+    padding: 14px 30px;
+    border-radius: 60px;
+    color: #1a1a2e;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-payment:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+}
+
+/* ============= قسم الفيديوهات ============= */
+.videos-section {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 28px;
+    padding: 25px;
+}
+
+.videos-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(138, 43, 226, 0.5);
+}
+
+.videos-header i {
+    font-size: 28px;
+    color: #ffd700;
+}
+
+.videos-header h3 {
+    color: white;
+    font-size: 20px;
+}
+
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.video-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 28px;
+    overflow: hidden;
+    transition: all 0.4s;
+    cursor: pointer;
+}
+
+.video-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.video-thumb {
+    position: relative;
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-thumb i {
+    font-size: 60px;
+    color: white;
+    opacity: 0.9;
+}
+
+.video-thumb .play-overlay {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.video-card:hover .play-overlay {
+    opacity: 1;
+}
+
+.video-info {
+    padding: 20px;
+    color: white;
+}
+
+.video-info h4 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.video-info p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+}
+
+/* ============= مودال الدفع ============= */
+.payment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.payment-modal.hidden {
+    display: none;
+}
+
+.payment-modal-content {
+    background: #1a1a2e;
+    border-radius: 40px;
+    width: 90%;
+    max-width: 450px;
+    border: 1px solid rgba(138, 43, 226, 0.5);
+}
+
+.payment-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+.payment-modal-body {
+    padding: 25px;
+}
+
+.selected-course-info {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffd700;
+}
+
+.price-tag-modal {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffd700;
+    margin-bottom: 25px;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.payment-method-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 14px;
+    border-radius: 60px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.payment-method-btn:hover {
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    transform: translateY(-2px);
+}
+
+.payment-message {
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.payment-note {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* ============= التقييمات ============= */
+.evaluations-premium {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.eval-form {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 28px;
+    padding: 25px;
+}
+
+.eval-form textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-family: 'Tajawal', sans-serif;
+    resize: vertical;
+}
+
+.eval-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.stars-rating {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.stars-rating i {
+    font-size: 32px;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: all 0.2s;
+}
+
+.stars-rating i:hover {
+    transform: scale(1.1);
+}
+
+.stars-rating i.fas {
+    color: #ffd700;
+}
+
+.btn-eval {
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    border: none;
+    padding: 14px;
+    border-radius: 60px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.btn-eval:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+}
+
+/* ============= سكرول ============= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    border-radius: 10px;
+}
+
+/* ============= استجابة ============= */
+@media (max-width: 768px) {
+    .dashboard-premium {
+        flex-direction: column;
+    }
+    .sidebar-premium {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 15px;
+    }
+    .logo-side {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    .nav-premium {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+    .nav-item {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    .content-premium {
+        padding: 20px;
+    }
+    .videos-grid {
+        grid-template-columns: 1fr;
+    }
+    .stats-mini {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .profile-premium {
+        flex-direction: column;
+        text-align: center;
+    }
+    .info-row {
+        justify-content: center;
+    }
+    .grades-container {
+        grid-template-columns: 1fr;
+    }
+    .stage-tabs {
+        flex-direction: column;
+    }
+    .stage-tab {
+        min-width: auto;
+    }
+}
+/* ============= قسم الشهور ============= */
+.months-section {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 28px;
+    padding: 25px;
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 60px;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.back-btn:hover {
+    background: rgba(138, 43, 226, 0.5);
+    transform: translateX(-5px);
+}
+
+.months-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.month-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 28px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.month-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(138, 43, 226, 0.5);
+}
+
+.month-card.purchased {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.05);
+}
+
+.month-icon i {
+    font-size: 50px;
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+
+.month-card h3 {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.month-card p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.month-price {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.2);
+    padding: 5px 15px;
+    border-radius: 60px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+
+.purchased-badge {
+    display: inline-block;
+    background: #00ff88;
+    color: #1a1a2e;
+    padding: 5px 12px;
+    border-radius: 60px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.unpurchased-badge {
+    display: inline-block;
+    background: rgba(255, 68, 68, 0.2);
+    color: #ff4444;
+    padding: 5px 12px;
+    border-radius: 60px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.month-pay-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #8a2be2, #00bfff);
+    border: none;
+    padding: 10px;
+    border-radius: 60px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.month-pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+}
+
+.month-card.purchased .month-pay-btn {
+    background: #00ff88;
+    color: #1a1a2e;
+}

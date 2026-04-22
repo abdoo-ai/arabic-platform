@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشغل الفيديو المحمي | منصة أُفق</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .player-container {
+            width: 90%;
+            max-width: 1000px;
+            background: #111;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        video {
+            width: 100%;
+            outline: none;
+            background: #000;
+        }
+        .controls {
+            padding: 15px;
+            background: #1a1a1a;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .controls button {
+            background: linear-gradient(135deg, #8a2be2, #00bfff);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138,43,226,0.4);
+        }
+        .watermark {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            color: rgba(255,255,255,0.25);
+            font-size: 12px;
+            font-family: monospace;
+            pointer-events: none;
+            z-index: 1000;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        .error-message {
+            padding: 40px;
+            text-align: center;
+            color: #ff4444;
+            background: #1a1a1a;
+        }
+        .loading {
+            padding: 40px;
+            text-align: center;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <video id="videoPlayer" controls disablepictureinpicture controlslist="nodownload" oncontextmenu="return false;">
+            <source id="videoSource" src="" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو
+        </video>
+        <div class="controls">
+            <button onclick="togglePlay()"><i class="fas fa-play"></i> تشغيل/إيقاف</button>
+            <button onclick="fullScreen()"><i class="fas fa-expand"></i> شاشة كاملة</button>
+            <button onclick="reloadVideo()"><i class="fas fa-sync-alt"></i> إعادة تحميل</button>
+        </div>
+        <div class="watermark">
+            <i class="fas fa-copyright"></i> منصة أُفق - جميع الحقوق محفوظة
+        </div>
+    </div>
+
+    <script>
+        // منع النقر بزر الماوس الأيمن (منع Save As)
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+        
+        // منع أدوات المطور الأساسية
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J'))) {
+                e.preventDefault();
+                alert('⚠️ تم تعطيل أدوات المطور لحماية المحتوى');
+            }
+            // منع Ctrl+U (عرض المصدر)
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                alert('⚠️ غير مسموح بعرض المصدر');
+            }
+            // منع Ctrl+S (حفظ الصفحة)
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                alert('⚠️ غير مسموح بحفظ الصفحة');
+            }
+        });
+        
+        // منع السحب والإفلات
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+            return false;
+        });
+        
+        // منع نسخ النص
+        document.addEventListener('copy', (e) => {
+            e.preventDefault();
+            alert('⚠️ غير مسموح بنسخ المحتوى');
+            return false;
+        });
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('v');
+        const token = urlParams.get('token');
+        const userId = urlParams.get('user');
+        
+        if (!videoUrl) {
+            document.body.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> لا يوجد رابط فيديو صالح</div>';
+        } else {
+            // التحقق من صحة التوكن قبل تشغيل الفيديو
+            async function verifyAndPlay() {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/verify-video-access?user=${userId}&token=${token}`);
+                    const data = await response.json();
+                    if (data.valid) {
+                        document.getElementById('videoSource').src = videoUrl;
+                        document.getElementById('videoPlayer').load();
+                        document.getElementById('videoPlayer').play().catch(e => console.log('Auto-play prevented'));
+                    } else {
+                        document.body.innerHTML = '<div class="error-message"><i class="fas fa-lock"></i> غير مصرح لك بمشاهدة هذا الفيديو<br><button onclick="window.close()" style="margin-top:20px; padding:10px 20px; background:#8a2be2; border:none; border-radius:30px; color:white; cursor:pointer;">إغلاق</button></div>';
+                    }
+                } catch(e) {
+                    document.body.innerHTML = '<div class="error-message"><i class="fas fa-wifi"></i> خطأ في التحقق من الصلاحية</div>';
+                }
+            }
+            verifyAndPlay();
+        }
+        
+        function togglePlay() {
+            const video = document.getElementById('videoPlayer');
+            if (video.paused) video.play();
+            else video.pause();
+        }
+        
+        function fullScreen() {
+            const video = document.getElementById('videoPlayer');
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+            else if (video.msRequestFullscreen) video.msRequestFullscreen();
+        }
+        
+        function reloadVideo() {
+            const video = document.getElementById('videoPlayer');
+            video.load();
+            video.play().catch(e => console.log('Play error'));
+        }
+        
+        // منع التحميل من قائمة السياق في الفيديو نفسه
+        const video = document.getElementById('videoPlayer');
+        video.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+        
+        // منع محاولة تحميل الفيديو باستخدام أدوات المطور
+        setInterval(() => {
+            const videoElement = document.querySelector('video');
+            if (videoElement && videoElement.src && videoElement.src.startsWith('blob:')) {
+                // إذا حاول أحد استخدام blob، نمنعه
+                videoElement.src = videoUrl;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

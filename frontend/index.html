@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة أُفق | أكاديمية العربية العالمية</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 45px 40px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 30px;
+        }
+        h1 { text-align: center; color: white; margin-bottom: 10px; font-size: 36px; }
+        h1 span { background: linear-gradient(135deg, #ffd700, #ff8c00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 30px; }
+        .tabs { display: flex; gap: 15px; margin-bottom: 35px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 80px; }
+        .tab-btn {
+            flex: 1; padding: 12px; background: transparent; border: none; border-radius: 60px;
+            color: rgba(255,255,255,0.7); font-weight: bold; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; gap: 8px;
+        }
+        .tab-btn.active { background: linear-gradient(135deg, #8a2be2, #00bfff); color: white; box-shadow: 0 5px 15px rgba(138,43,226,0.3); }
+        .input-group {
+            display: flex; align-items: center; background: rgba(255,255,255,0.08);
+            border-radius: 60px; margin: 18px 0; padding: 5px 22px;
+            border: 1px solid rgba(255,255,255,0.15); transition: all 0.3s;
+        }
+        .input-group:focus-within { border-color: #8a2be2; box-shadow: 0 0 15px rgba(138,43,226,0.3); }
+        .input-group i { color: #8a2be2; font-size: 18px; margin-left: 15px; }
+        .input-group input { flex: 1; padding: 16px 0; background: transparent; border: none; color: white; font-size: 16px; }
+        .input-group input::placeholder { color: rgba(255,255,255,0.5); }
+        .btn {
+            width: 100%; padding: 15px; background: linear-gradient(135deg, #8a2be2, #00bfff);
+            border: none; border-radius: 60px; color: white; font-size: 18px;
+            font-weight: bold; cursor: pointer; margin-top: 25px; display: flex;
+            align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(138,43,226,0.4); }
+        .form-container { display: none; animation: fadeSlide 0.5s ease; }
+        .form-container.active-form { display: block; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .error-msg { color: #ff6b6b; text-align: center; margin-top: 15px; font-size: 14px; }
+        .vertical-names { display: flex; flex-direction: column; gap: 8px; }
+
+        /* ============= تذييل الصفحة ============= */
+        .footer {
+            margin-top: 30px;
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .copyright { color: rgba(255, 255, 255, 0.5); font-size: 13px; margin-bottom: 15px; }
+        .social-links { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-bottom: 20px; }
+        .social-link {
+            display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08); border-radius: 60px; color: white;
+            text-decoration: none; transition: all 0.3s; font-size: 14px;
+        }
+        .social-link i { font-size: 18px; }
+        .social-link:hover { transform: translateY(-3px); background: rgba(138, 43, 226, 0.3); }
+        .social-link.whatsapp:hover { background: #25D366; color: white; }
+        .social-link.facebook:hover { background: #1877F2; color: white; }
+        .social-link.email:hover { background: #EA4335; color: white; }
+        .developer { color: rgba(255, 255, 255, 0.4); font-size: 11px; margin-top: 15px; }
+        .developer a { color: #ffd700; text-decoration: none; }
+        .developer a:hover { text-decoration: underline; }
+
+        @media (max-width: 550px) { .container { padding: 30px 25px; } .tab-btn { font-size: 14px; } }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>منصة <span>أُفق</span></h1>
+        <p class="subtitle">أكاديمية اللغة العربية العالمية</p>
+
+        <div class="tabs">
+            <button class="tab-btn active" id="showLoginBtn"><i class="fas fa-sign-in-alt"></i> دخول</button>
+            <button class="tab-btn" id="showRegisterBtn"><i class="fas fa-user-plus"></i> حساب جديد</button>
+        </div>
+
+        <div id="loginSection" class="form-container active-form">
+            <div class="input-group"><i class="fas fa-phone-alt"></i><input type="tel" id="loginPhone" placeholder="رقم الهاتف"></div>
+            <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="كلمة المرور"></div>
+            <div id="loginError" class="error-msg"></div>
+            <button class="btn" onclick="login()"><span>دخول</span><i class="fas fa-arrow-left"></i></button>
+        </div>
+
+        <div id="registerSection" class="form-container">
+            <div class="vertical-names">
+                <div class="input-group"><i class="fas fa-user"></i><input type="text" id="firstName" placeholder="الاسم الأول"></div>
+                <div class="input-group"><i class="fas fa-user"></i><input type="text" id="secondName" placeholder="الاسم الثاني"></div>
+                <div class="input-group"><i class="fas fa-user"></i><input type="text" id="thirdName" placeholder="الاسم الثالث"></div>
+                <div class="input-group"><i class="fas fa-user-tag"></i><input type="text" id="lastName" placeholder="الاسم الرابع"></div>
+            </div>
+            <div class="input-group"><i class="fas fa-phone-alt"></i><input type="tel" id="regPhone" placeholder="رقم الهاتف"></div>
+            <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="regEmail" placeholder="البريد الإلكتروني (اختياري)"></div>
+            <div class="input-group"><i class="fas fa-mobile-alt"></i><input type="tel" id="studentPhone" placeholder="رقم الطالب (اختياري)"></div>
+            <div class="input-group"><i class="fas fa-users"></i><input type="tel" id="parentPhone" placeholder="رقم ولي الأمر (اختياري)"></div>
+            <div class="input-group"><i class="fas fa-key"></i><input type="password" id="regPassword" placeholder="كلمة المرور"></div>
+            <div id="registerError" class="error-msg"></div>
+            <button class="btn" onclick="register()"><span>إنشاء حساب</span><i class="fas fa-check-circle"></i></button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://wa.me/201007073446" target="_blank" class="social-link whatsapp">
+                    <i class="fab fa-whatsapp"></i> واتساب
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=10007073446" target="_blank" class="social-link facebook">
+                    <i class="fab fa-facebook"></i> فيسبوك
+                </a>
+                <a href="mailto:admin@oufq.com" class="social-link email">
+                    <i class="fas fa-envelope"></i> البريد الإلكتروني
+                </a>
+            </div>
+            <div class="copyright">
+                <i class="fas fa-copyright"></i> 2025 منصة أُفق - جميع الحقوق محفوظة
+            </div>
+            <div class="developer">
+                تطوير <a href="#">مبرمج المنصة</a> | تصميم وبرمجة منصة تعليمية متكاملة
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+
+        function getDeviceFingerprint() {
+            let fingerprint = localStorage.getItem('device_fingerprint');
+            if (!fingerprint) {
+                fingerprint = 'dev_' + Math.random().toString(36).substr(2, 15);
+                localStorage.setItem('device_fingerprint', fingerprint);
+            }
+            return fingerprint;
+        }
+
+        document.getElementById('showLoginBtn').onclick = () => {
+            document.getElementById('loginSection').classList.add('active-form');
+            document.getElementById('registerSection').classList.remove('active-form');
+            document.getElementById('showLoginBtn').classList.add('active');
+            document.getElementById('showRegisterBtn').classList.remove('active');
+            document.getElementById('loginError').innerText = '';
+        };
+        document.getElementById('showRegisterBtn').onclick = () => {
+            document.getElementById('loginSection').classList.remove('active-form');
+            document.getElementById('registerSection').classList.add('active-form');
+            document.getElementById('showLoginBtn').classList.remove('active');
+            document.getElementById('showRegisterBtn').classList.add('active');
+            document.getElementById('registerError').innerText = '';
+        };
+
+        async function register() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const secondName = document.getElementById('secondName').value.trim();
+            const thirdName = document.getElementById('thirdName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const studentPhone = document.getElementById('studentPhone').value.trim();
+            const parentPhone = document.getElementById('parentPhone').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+
+            if (!firstName || !secondName || !thirdName || !lastName || !phone || !password) {
+                document.getElementById('registerError').innerText = '❌ الاسم الرباعي ورقم الهاتف وكلمة المرور مطلوبة';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ firstName, secondName, thirdName, lastName, phone, email, studentPhone, parentPhone, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('✅ ' + data.message);
+                    document.getElementById('registerForm').reset();
+                    document.getElementById('showLoginBtn').click();
+                } else {
+                    document.getElementById('registerError').innerText = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('registerError').innerText = '❌ خطأ في الاتصال';
+            }
+        }
+
+        async function login() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const deviceId = getDeviceFingerprint();
+
+            if (!phone || !password) {
+                document.getElementById('loginError').innerText = '❌ رقم الهاتف وكلمة المرور مطلوبين';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, password, deviceId })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    if (data.user.role === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
+                    document.getElementById('loginError').innerText = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('loginError').innerText = '❌ خطأ في الاتصال';
+            }
+        }
+    </script>
+</body>
+</html>
