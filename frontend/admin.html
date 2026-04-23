@@ -57,7 +57,7 @@
             background: rgba(255,255,255,0.03); border-radius: 20px; padding: 15px; margin-bottom: 20px;
         }
         .grade-group h4 { color: #ffd700; margin-bottom: 15px; font-size: 18px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .grade-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+        .grade-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
         .grade-option {
             background: rgba(255,255,255,0.08); border-radius: 50px; padding: 10px 15px;
             cursor: pointer; transition: all 0.3s; text-align: center;
@@ -142,7 +142,6 @@
             color: #8a2be2;
         }
 
-        /* ============= تذييل الصفحة ============= */
         .footer {
             margin-top: 80px;
             padding: 30px 20px;
@@ -167,15 +166,12 @@
         .social-link.email:hover { background: #EA4335; color: white; }
         .developer { color: rgba(255, 255, 255, 0.4); font-size: 11px; margin-top: 15px; }
         .developer a { color: #ffd700; text-decoration: none; }
-        .developer a:hover { text-decoration: underline; }
-        
+
         @media (max-width: 768px) {
             .grade-buttons { grid-template-columns: 1fr; }
             .month-group { grid-template-columns: 1fr; }
             .header { flex-direction: column; gap: 15px; text-align: center; }
             .student-header { flex-direction: column; align-items: flex-start; }
-            .student-buttons { width: 100%; justify-content: flex-start; }
-            .student-details { flex-direction: column; gap: 8px; }
         }
     </style>
 </head>
@@ -197,7 +193,7 @@
         <!-- تبويب الفيديوهات -->
         <div id="videosTab" class="tab-content active">
             <div class="card">
-                <h3><i class="fab fa-google-drive"></i> إضافة فيديو جديد (Google Drive)</h3>
+                <h3><i class="fab fa-google-drive"></i> إضافة فيديو جديد</h3>
                 <div class="info-msg">
                     <i class="fas fa-info-circle"></i> 
                     <strong>كيف تحصل على رابط التشغيل المباشر من Google Drive؟</strong><br>
@@ -348,22 +344,12 @@
     <div class="footer">
         <div class="footer-content">
             <div class="social-links">
-                <a href="https://wa.me/201007073446" target="_blank" class="social-link whatsapp">
-                    <i class="fab fa-whatsapp"></i> واتساب
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=10007073446" target="_blank" class="social-link facebook">
-                    <i class="fab fa-facebook"></i> فيسبوك
-                </a>
-                <a href="mailto:admin@oufq.com" class="social-link email">
-                    <i class="fas fa-envelope"></i> البريد الإلكتروني
-                </a>
+                <a href="https://wa.me/201007073446" target="_blank" class="social-link whatsapp"><i class="fab fa-whatsapp"></i> واتساب</a>
+                <a href="https://www.facebook.com/profile.php?id=10007073446" target="_blank" class="social-link facebook"><i class="fab fa-facebook"></i> فيسبوك</a>
+                <a href="mailto:admin@oufq.com" class="social-link email"><i class="fas fa-envelope"></i> البريد الإلكتروني</a>
             </div>
-            <div class="copyright">
-                <i class="fas fa-copyright"></i> 2025 منصة أُفق - جميع الحقوق محفوظة
-            </div>
-            <div class="developer">
-                تطوير <a href="#">مبرمج المنصة</a> | تصميم وبرمجة منصة تعليمية متكاملة
-            </div>
+            <div class="copyright"><i class="fas fa-copyright"></i> 2025 منصة أُفق - جميع الحقوق محفوظة</div>
+            <div class="developer">تطوير <a href="#">مبرمج المنصة</a></div>
         </div>
     </div>
 
@@ -375,8 +361,24 @@
         let selectedFileGrade = null, selectedFileMonth = null;
         let allStudents = [];
 
+        // ============= دالة الحصول على بصمة الجهاز (محسنة) =============
+        function getDeviceFingerprint() {
+            let fingerprint = localStorage.getItem('device_fingerprint');
+            if (!fingerprint) {
+                const userAgent = navigator.userAgent;
+                const screenRes = `${screen.width}x${screen.height}x${screen.colorDepth}`;
+                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const language = navigator.language;
+                const platform = navigator.platform;
+                
+                fingerprint = `dev_${userAgent.substring(0, 50)}_${screenRes}_${timeZone}_${language}_${platform}_${Date.now()}`;
+                fingerprint = fingerprint.replace(/[^a-zA-Z0-9_]/g, '_').substring(0, 150);
+                localStorage.setItem('device_fingerprint', fingerprint);
+            }
+            return fingerprint;
+        }
+
         function logout() {
-            console.log('جاري تسجيل الخروج...');
             stopDeviceMonitoring();
             localStorage.clear();
             sessionStorage.clear();
@@ -387,7 +389,9 @@
             const token = localStorage.getItem('token');
             if (!token) return false;
             try {
-                const response = await fetch(`${API_URL}/check-device`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const response = await fetch(`${API_URL}/check-device`, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
                 const data = await response.json();
                 if (!data.valid) {
                     logout();
@@ -446,9 +450,10 @@
             if (tab === 'videos') loadVideos();
             if (tab === 'files') loadFiles();
             if (tab === 'quiz') loadQuizSelect();
+            startDeviceMonitoring();
         }
 
-        // ============= إدارة الفيديوهات =============
+        // ============= الفيديوهات =============
         async function addVideo() {
             if (!selectedGrade) { document.getElementById('uploadMsg').innerHTML = '<div class="error-msg">❌ اختر الصف أولاً</div>'; return; }
             if (!selectedMonth) { document.getElementById('uploadMsg').innerHTML = '<div class="error-msg">❌ اختر الشهر أولاً</div>'; return; }
@@ -504,7 +509,7 @@
             loadVideos(); loadQuizSelect();
         }
 
-        // ============= إدارة الملفات =============
+        // ============= الملفات =============
         async function addFile() {
             if (!selectedFileGrade) { document.getElementById('fileMsg').innerHTML = '<div class="error-msg">❌ اختر الصف أولاً</div>'; return; }
             if (!selectedFileMonth) { document.getElementById('fileMsg').innerHTML = '<div class="error-msg">❌ اختر الشهر أولاً</div>'; return; }
@@ -555,7 +560,7 @@
             loadFiles();
         }
 
-        // ============= إدارة الكويزات =============
+        // ============= الكويزات =============
         async function loadQuizSelect() {
             const response = await fetch(`${API_URL}/admin/videos`);
             const videos = await response.json();
@@ -628,7 +633,7 @@
             setTimeout(() => document.getElementById('priceMsg').innerHTML = '', 3000);
         }
 
-        // ============= إدارة الطلاب =============
+        // ============= الطلاب =============
         async function loadStudents() {
             const response = await fetch(`${API_URL}/admin/students`);
             const students = await response.json();
@@ -637,10 +642,8 @@
             for (const student of students) {
                 const studentRes = await fetch(`${API_URL}/student/${student.id}`);
                 const studentData = await studentRes.json();
-                
                 const paymentsRes = await fetch(`${API_URL}/admin/student-payments/${student.id}`);
                 const payments = await paymentsRes.json();
-                
                 studentsWithFullData.push({
                     ...student,
                     studentPhone: studentData.user.studentPhone || 'غير مسجل',
@@ -649,7 +652,6 @@
                     examResults: studentData.examResults || []
                 });
             }
-            
             allStudents = studentsWithFullData;
             displayStudents(studentsWithFullData);
         }
@@ -682,6 +684,7 @@
                                 <span><i class="fas fa-phone"></i> 📱 رقم الطالب: ${s.studentPhone || 'غير مسجل'}</span>
                                 <span><i class="fas fa-users"></i> 👨‍👩‍👧 رقم ولي الأمر: ${s.parentPhone || 'غير مسجل'}</span>
                                 <span><i class="fas fa-envelope"></i> 📧 البريد: ${s.email || 'غير مسجل'}</span>
+                                <span><i class="fas fa-graduation-cap"></i> 🎓 الصف: ${s.grade_name || 'غير محدد'}</span>
                             </div>
                         </div>
                         <div class="student-buttons">
@@ -692,7 +695,7 @@
                     </div>
                     <div class="exam-results" id="examResults-${s.id}">
                         <div style="margin-bottom: 10px; font-weight: bold; color: #ffd700;">
-                            <i class="fas fa-chart-line"></i> نتائج الاختبارات (الكويزات)
+                            <i class="fas fa-chart-line"></i> نتائج الاختبارات
                         </div>
                         ${renderExamResults(s.examResults)}
                     </div>
@@ -704,50 +707,33 @@
             if (!examResults || examResults.length === 0) {
                 return '<div class="exam-item" style="justify-content: center;"><span style="color: rgba(255,255,255,0.6);">📭 لا توجد نتائج اختبارات بعد</span></div>';
             }
-            
             return examResults.map(exam => {
                 const percentage = (exam.score / exam.total) * 100;
                 const passed = percentage >= 50;
-                return `
-                    <div class="exam-item ${passed ? 'passed' : 'failed'}">
-                        <div>
-                            <div class="exam-title"><i class="fas fa-video"></i> ${exam.lecture_name}</div>
-                            <div class="exam-date"><i class="fas fa-calendar-alt"></i> ${new Date(exam.date).toLocaleDateString('ar-EG')}</div>
-                        </div>
-                        <div class="exam-score">
-                            <span class="${passed ? 'exam-pass' : 'exam-fail'}">${exam.score}/${exam.total}</span>
-                            <span class="${passed ? 'exam-pass' : 'exam-fail'}"> (${percentage}%)</span>
-                            ${passed ? '<span style="color:#00ff88; margin-left:8px;"><i class="fas fa-check-circle"></i> ناجح</span>' : '<span style="color:#ff4444; margin-left:8px;"><i class="fas fa-times-circle"></i> راسب</span>'}
-                        </div>
-                    </div>
-                `;
+                return `<div class="exam-item ${passed ? 'passed' : 'failed'}">
+                            <div><div class="exam-title"><i class="fas fa-video"></i> ${exam.lecture_name}</div>
+                            <div class="exam-date">${new Date(exam.date).toLocaleDateString('ar-EG')}</div></div>
+                            <div><span class="${passed ? 'exam-pass' : 'exam-fail'}">${exam.score}/${exam.total} (${percentage}%)</span>
+                            ${passed ? '<span style="color:#00ff88;"> ناجح</span>' : '<span style="color:#ff4444;"> راسب</span>'}</div>
+                        </div>`;
             }).join('');
         }
 
         function toggleStudentResults(studentId) {
             const resultsDiv = document.getElementById(`examResults-${studentId}`);
-            if (resultsDiv) {
-                resultsDiv.classList.toggle('show');
-            }
-        }
-
-        if (document.getElementById('searchStudent')) {
-            document.getElementById('searchStudent').addEventListener('input', () => {
-                displayStudents(allStudents);
-            });
+            if (resultsDiv) resultsDiv.classList.toggle('show');
         }
 
         async function viewPayments(studentId) {
             const response = await fetch(`${API_URL}/admin/student-payments/${studentId}`);
             const payments = await response.json();
-            if (payments.length === 0) {
-                alert('لا توجد مدفوعات لهذا الطالب');
-            } else {
-                alert(payments.map(p => `${p.grade_name} - ${p.month_name}: ${p.amount} جنيه`).join('\n'));
-            }
+            if (payments.length === 0) alert('لا توجد مدفوعات لهذا الطالب');
+            else alert(payments.map(p => `${p.grade_name} - ${p.month_name}: ${p.amount} جنيه`).join('\n'));
         }
 
         document.getElementById('logoutButton').addEventListener('click', logout);
+        document.getElementById('searchStudent').addEventListener('input', () => displayStudents(allStudents));
+        
         startDeviceMonitoring();
         loadVideos(); 
         loadQuizSelect(); 

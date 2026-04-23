@@ -43,43 +43,81 @@
         .stat-card:hover { transform: translateY(-3px); }
         .stat-card i { font-size: 35px; color: #ffd700; margin-bottom: 10px; }
         .stat-card .value { font-size: 28px; font-weight: bold; margin: 10px 0; }
-        .stage-tabs { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
-        .stage-tab {
-            padding: 12px 28px; background: rgba(255,255,255,0.1); border-radius: 60px;
-            color: white; cursor: pointer; font-weight: bold; transition: all 0.3s;
+        
+        .courses-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
         }
-        .stage-tab:hover { background: rgba(138,43,226,0.5); }
-        .stage-tab.active { background: linear-gradient(135deg, #8a2be2, #00bfff); box-shadow: 0 5px 15px rgba(138,43,226,0.3); }
-        .grades-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-bottom: 30px; }
-        .grade-card {
-            background: rgba(255,255,255,0.05); border-radius: 25px; padding: 25px; text-align: center;
-            cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.1);
+        .courses-tab {
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
         }
-        .grade-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.1); border-color: rgba(138,43,226,0.5); }
-        .grade-card i { font-size: 55px; color: #ffd700; margin-bottom: 15px; }
-        .grade-card h4 { color: white; font-size: 20px; margin: 10px 0; }
-        .months-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+        .courses-tab:hover { background: rgba(138,43,226,0.3); }
+        .courses-tab.active { background: linear-gradient(135deg, #8a2be2, #00bfff); }
+        
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
         .month-card {
-            background: rgba(255,255,255,0.05); border-radius: 25px; padding: 25px; text-align: center;
-            transition: all 0.3s; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            border-radius: 25px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
         }
         .month-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); }
-        .month-card.paid { border: 2px solid #00ff88; }
+        .month-card.paid { border: 2px solid #00ff88; background: rgba(0,255,136,0.05); }
         .month-card h4 { color: white; font-size: 22px; margin-bottom: 10px; }
         .month-price { color: #ffd700; font-size: 24px; font-weight: bold; margin: 15px 0; }
         .pay-btn {
-            background: linear-gradient(135deg, #8a2be2, #00bfff); border: none; padding: 10px 20px;
-            border-radius: 60px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px;
+            background: linear-gradient(135deg, #8a2be2, #00bfff);
+            border: none; padding: 10px 20px;
+            border-radius: 60px; color: white;
+            font-weight: bold; cursor: pointer; margin-top: 10px;
+            width: 100%;
         }
-        .content-tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
-        .content-tab {
-            padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 60px;
-            color: white; cursor: pointer; font-weight: bold;
+        .paid-badge {
+            display: inline-block;
+            background: #00ff88;
+            color: #1a1a2e;
+            padding: 5px 15px;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px 0;
         }
-        .content-tab.active { background: linear-gradient(135deg, #8a2be2, #00bfff); }
-        .videos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        
+        .videos-section {
+            margin-top: 30px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 28px;
+            padding: 25px;
+        }
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
         .video-card {
-            background: rgba(255,255,255,0.05); border-radius: 25px; overflow: hidden; cursor: pointer; transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+            border-radius: 25px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         .video-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
         .video-thumb { background: linear-gradient(135deg, #8a2be2, #00bfff); height: 160px; display: flex; align-items: center; justify-content: center; position: relative; }
@@ -89,18 +127,19 @@
         .video-info p { color: rgba(255,255,255,0.6); font-size: 13px; }
         .quiz-lock { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
         .quiz-lock i { font-size: 20px; color: #ffd700; }
-        .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .file-card {
-            background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; text-align: center;
-            cursor: pointer; transition: all 0.3s;
-        }
-        .file-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); }
-        .file-card i { font-size: 50px; color: #ffd700; margin-bottom: 10px; }
+        
         .back-btn {
-            background: rgba(255,255,255,0.1); border: none; padding: 10px 25px; border-radius: 60px;
-            color: white; cursor: pointer; margin-bottom: 20px; transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s;
         }
         .back-btn:hover { background: rgba(138,43,226,0.5); transform: translateX(-5px); }
+        
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
@@ -118,33 +157,15 @@
         .quiz-question input { margin-left: 10px; }
         .btn-submit { width: 100%; padding: 12px; background: linear-gradient(135deg, #8a2be2, #00bfff); border: none; border-radius: 60px; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; }
         
-        /* ============= شريط التنقل السفلي ============= */
         .bottom-nav {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 10px;
-            border-radius: 60px;
-            margin: 0 20px;
-            z-index: 99;
+            position: fixed; bottom: 20px; left: 0; right: 0;
+            display: flex; justify-content: center; gap: 15px;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            padding: 10px; border-radius: 60px; margin: 0 20px; z-index: 99;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
-        .bottom-nav.hide {
-            transform: translateY(100px);
-            opacity: 0;
-            pointer-events: none;
-        }
-        .bottom-nav.show {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .bottom-nav.hide { transform: translateY(100px); opacity: 0; pointer-events: none; }
+        .bottom-nav.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
         .nav-btn {
             background: none; border: none; color: white; font-size: 18px; padding: 10px 25px;
             border-radius: 60px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px;
@@ -155,9 +176,7 @@
         textarea { width: 100%; padding: 12px 15px; border-radius: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; resize: vertical; }
         .stars { margin: 15px 0; text-align: center; }
         .stars span { font-size: 28px; cursor: pointer; transition: all 0.2s; }
-        .stars span:hover { transform: scale(1.1); }
-
-        /* ============= تذييل الصفحة ============= */
+        
         .footer {
             margin-top: 80px;
             padding: 30px 20px;
@@ -177,18 +196,13 @@
         }
         .social-link i { font-size: 18px; }
         .social-link:hover { transform: translateY(-3px); background: rgba(138, 43, 226, 0.3); }
-        .social-link.whatsapp:hover { background: #25D366; color: white; }
-        .social-link.facebook:hover { background: #1877F2; color: white; }
-        .social-link.email:hover { background: #EA4335; color: white; }
         .developer { color: rgba(255, 255, 255, 0.4); font-size: 11px; margin-top: 15px; }
         .developer a { color: #ffd700; text-decoration: none; }
-        .developer a:hover { text-decoration: underline; }
 
         @media (max-width: 768px) {
             .stats { grid-template-columns: 1fr; }
-            .grades-grid, .months-grid, .videos-grid, .files-grid { grid-template-columns: 1fr; }
+            .months-grid, .videos-grid { grid-template-columns: 1fr; }
             .header { flex-direction: column; gap: 15px; text-align: center; }
-            .stage-tabs { justify-content: center; }
             .nav-btn { padding: 8px 15px; font-size: 14px; }
         }
     </style>
@@ -205,6 +219,7 @@
                 <div class="info-row"><i class="fas fa-user"></i> <strong>الاسم الرباعي:</strong> <span id="fullName"></span></div>
                 <div class="info-row"><i class="fas fa-phone"></i> <strong>رقم الهاتف:</strong> <span id="phone"></span></div>
                 <div class="info-row"><i class="fas fa-envelope"></i> <strong>البريد:</strong> <span id="email"></span></div>
+                <div class="info-row"><i class="fas fa-graduation-cap"></i> <strong>الصف الدراسي:</strong> <span id="userGrade"></span></div>
             </div>
             <div class="card"><h3><i class="fas fa-credit-card"></i> اشتراكاتي المدفوعة</h3><div id="paymentsList"></div></div>
             <div class="card"><h3><i class="fas fa-chart-line"></i> إحصائياتي</h3>
@@ -224,21 +239,17 @@
         </div>
 
         <div id="coursesSection" style="display: none;">
-            <div class="stage-tabs">
-                <button class="stage-tab active" onclick="selectStage('elementary')"><i class="fas fa-school"></i> المرحلة الابتدائية</button>
-                <button class="stage-tab" onclick="selectStage('middle')"><i class="fas fa-book"></i> المرحلة الإعدادية</button>
-                <button class="stage-tab" onclick="selectStage('secondary')"><i class="fas fa-university"></i> المرحلة الثانوية</button>
+            <div class="courses-tabs">
+                <button class="courses-tab active" onclick="showCoursesTab('all')"><i class="fas fa-list"></i> كل الكورسات</button>
+                <button class="courses-tab" onclick="showCoursesTab('subscribed')"><i class="fas fa-check-circle"></i> الكورسات المشترك فيها</button>
             </div>
-            <div id="gradesContainer" class="grades-grid"></div>
-            <div id="monthsContainer" style="display: none;"><button class="back-btn" onclick="backToGrades()"><i class="fas fa-arrow-right"></i> رجوع للصفوف</button><h3 id="gradeTitle" style="color: #ffd700; margin-bottom: 20px;"></h3><div class="months-grid" id="monthsGrid"></div></div>
-            <div id="contentContainer" style="display: none;">
-                <button class="back-btn" onclick="backToMonths()"><i class="fas fa-arrow-right"></i> رجوع للأشهر</button>
-                <div class="content-tabs">
-                    <div class="content-tab active" onclick="showContentTab('videos')"><i class="fas fa-video"></i> الفيديوهات</div>
-                    <div class="content-tab" onclick="showContentTab('files')"><i class="fas fa-file"></i> الملفات</div>
-                </div>
-                <div id="videosGrid" class="videos-grid"></div>
-                <div id="filesGrid" class="files-grid" style="display: none;"></div>
+            <div id="coursesContainer">
+                <h3 id="coursesTitle" style="color: #ffd700; margin-bottom: 20px;">كل الكورسات</h3>
+                <div class="months-grid" id="monthsGrid"></div>
+            </div>
+            <div id="videosContainer" style="display: none;">
+                <button class="back-btn" onclick="backToCourses()"><i class="fas fa-arrow-right"></i> رجوع للكورسات</button>
+                <div class="videos-grid" id="videosGrid"></div>
             </div>
         </div>
 
@@ -263,34 +274,41 @@
     <div class="footer">
         <div class="footer-content">
             <div class="social-links">
-                <a href="https://wa.me/201007073446" target="_blank" class="social-link whatsapp">
-                    <i class="fab fa-whatsapp"></i> واتساب
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=10007073446" target="_blank" class="social-link facebook">
-                    <i class="fab fa-facebook"></i> فيسبوك
-                </a>
-                <a href="mailto:admin@oufq.com" class="social-link email">
-                    <i class="fas fa-envelope"></i> البريد الإلكتروني
-                </a>
+                <a href="https://wa.me/201007073446" target="_blank" class="social-link whatsapp"><i class="fab fa-whatsapp"></i> واتساب</a>
+                <a href="https://www.facebook.com/profile.php?id=10007073446" target="_blank" class="social-link facebook"><i class="fab fa-facebook"></i> فيسبوك</a>
+                <a href="mailto:admin@oufq.com" class="social-link email"><i class="fas fa-envelope"></i> البريد الإلكتروني</a>
             </div>
-            <div class="copyright">
-                <i class="fas fa-copyright"></i> 2025 منصة أُفق - جميع الحقوق محفوظة
-            </div>
-            <div class="developer">
-                تطوير <a href="#">مبرمج المنصة</a> | تصميم وبرمجة منصة تعليمية متكاملة
-            </div>
+            <div class="copyright"><i class="fas fa-copyright"></i> 2025 منصة أُفق - جميع الحقوق محفوظة</div>
+            <div class="developer">تطوير <a href="#">مبرمج المنصة</a> | تصميم وبرمجة منصة تعليمية متكاملة</div>
         </div>
     </div>
 
     <script>
         const API_URL = 'http://localhost:5000/api';
-        let user = null, purchased = {}, currentGrade = null, currentMonth = null, currentContentTab = 'videos';
+        let user = null, purchased = {}, currentCourseId = null;
         let pendingGrade, pendingMonth, pendingPrice, pendingGradeName, pendingMonthName;
         let deviceCheckInterval = null;
         let currentVideoId = null, currentQuizQuestions = [], currentQuizAnswers = {};
+        let currentCoursesTab = 'all';
+        let allCourses = [];
+
+        function getDeviceFingerprint() {
+            let fingerprint = localStorage.getItem('device_fingerprint');
+            if (!fingerprint) {
+                const userAgent = navigator.userAgent;
+                const screenRes = `${screen.width}x${screen.height}x${screen.colorDepth}`;
+                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const language = navigator.language;
+                const platform = navigator.platform;
+                
+                fingerprint = `dev_${userAgent.substring(0, 50)}_${screenRes}_${timeZone}_${language}_${platform}_${Date.now()}`;
+                fingerprint = fingerprint.replace(/[^a-zA-Z0-9_]/g, '_').substring(0, 150);
+                localStorage.setItem('device_fingerprint', fingerprint);
+            }
+            return fingerprint;
+        }
 
         function logout() {
-            console.log('جاري تسجيل الخروج...');
             stopDeviceMonitoring();
             localStorage.clear();
             sessionStorage.clear();
@@ -301,7 +319,9 @@
             const token = localStorage.getItem('token');
             if (!token) return false;
             try {
-                const response = await fetch(`${API_URL}/check-device`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const response = await fetch(`${API_URL}/check-device`, { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
                 const data = await response.json();
                 if (!data.valid) {
                     logout();
@@ -313,7 +333,9 @@
 
         function startDeviceMonitoring() {
             if (deviceCheckInterval) clearInterval(deviceCheckInterval);
-            deviceCheckInterval = setInterval(async () => { await checkDeviceValidity(); }, 5000);
+            deviceCheckInterval = setInterval(async () => { 
+                await checkDeviceValidity(); 
+            }, 3000);
         }
 
         function stopDeviceMonitoring() {
@@ -327,7 +349,9 @@
             document.getElementById('fullName').innerText = user.fullName;
             document.getElementById('phone').innerText = user.phone;
             document.getElementById('email').innerText = user.email;
+            document.getElementById('userGrade').innerText = user.gradeName;
             await loadStudentData();
+            await loadAllCourses();
             startDeviceMonitoring();
         }
 
@@ -351,78 +375,66 @@
             }
         }
 
-        window.showSection = function(section) {
-            const profileDiv = document.getElementById('profileSection');
-            const coursesDiv = document.getElementById('coursesSection');
-            const navBtns = document.querySelectorAll('.nav-btn');
-            
-            if (section === 'profile') {
-                profileDiv.style.display = 'block';
-                coursesDiv.style.display = 'none';
-                navBtns[0].classList.add('active');
-                navBtns[1].classList.remove('active');
-            } else {
-                profileDiv.style.display = 'none';
-                coursesDiv.style.display = 'block';
-                navBtns[0].classList.remove('active');
-                navBtns[1].classList.add('active');
-                loadGrades();
-            }
-        };
-
-        const grades = {
-            elementary: [{ id: 'grade4', name: 'الصف الرابع الابتدائي' }, { id: 'grade5', name: 'الصف الخامس الابتدائي' }, { id: 'grade6', name: 'الصف السادس الابتدائي' }],
-            middle: [{ id: 'grade7', name: 'الصف الأول الإعدادي' }, { id: 'grade8', name: 'الصف الثاني الإعدادي' }, { id: 'grade9', name: 'الصف الثالث الإعدادي' }],
-            secondary: [{ id: 'grade10', name: 'الصف الأول الثانوي' }, { id: 'grade11', name: 'الصف الثاني الثانوي' }, { id: 'grade12', name: 'الصف الثالث الثانوي' }]
-        };
-        let currentStage = 'elementary';
-
-        window.selectStage = function(stage) {
-            currentStage = stage;
-            document.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            loadGrades();
-        };
-
-        function loadGrades() {
-            const container = document.getElementById('gradesContainer');
-            container.innerHTML = grades[currentStage].map(g => `<div class="grade-card" onclick="openGrade('${g.id}', '${g.name}')"><i class="fas fa-book-open"></i><h4>${g.name}</h4></div>`).join('');
-            document.getElementById('gradesContainer').style.display = 'grid';
-            document.getElementById('monthsContainer').style.display = 'none';
-            document.getElementById('contentContainer').style.display = 'none';
-        }
-
-        async function openGrade(gradeId, gradeName) {
-            currentGrade = gradeId;
-            document.getElementById('gradesContainer').style.display = 'none';
-            document.getElementById('monthsContainer').style.display = 'block';
-            document.getElementById('gradeTitle').innerHTML = `<i class="fas fa-calendar-alt"></i> ${gradeName} - اختر الشهر`;
-            const months = ['month1', 'month2', 'month3'], names = { month1: 'الشهر الأول', month2: 'الشهر الثاني', month3: 'الشهر الثالث' };
-            let html = '';
-            for (let m of months) {
-                const priceRes = await fetch(`${API_URL}/get-price/${gradeId}/${m}`), priceData = await priceRes.json(), price = priceData.price;
-                const isPaid = purchased[`${gradeId}_${m}`];
-                html += `<div class="month-card ${isPaid ? 'paid' : ''}"><h4>${names[m]}</h4><div class="month-price">${price} جنيه</div>${isPaid ? '<div style="color: #00ff88; margin: 10px 0;"><i class="fas fa-check-circle"></i> تم الدفع</div><button class="pay-btn" onclick="openMonth(\'' + gradeId + '\', \'' + m + '\')"><i class="fas fa-folder-open"></i> عرض المحتوى</button>' : '<button class="pay-btn" onclick="startPayment(\'' + gradeId + '\', \'' + gradeName + '\', \'' + m + '\', \'' + names[m] + '\', ' + price + ')"><i class="fas fa-shopping-cart"></i> اشترك الآن</button>'}</div>`;
-            }
-            document.getElementById('monthsGrid').innerHTML = html;
-        }
-
-        window.openMonth = async function(gradeId, monthId) {
-            currentMonth = monthId;
-            document.getElementById('monthsContainer').style.display = 'none';
-            document.getElementById('contentContainer').style.display = 'block';
-            await loadVideos();
-            await loadFiles();
-        };
-
-        async function loadVideos() {
-            const response = await fetch(`${API_URL}/videos/${currentGrade}/${currentMonth}`);
+        async function loadAllCourses() {
+            const response = await fetch(`${API_URL}/videos-by-grade/${user.gradeId}`);
             const videos = await response.json();
-            const container = document.getElementById('videosGrid');
-            if (videos.length === 0) {
-                container.innerHTML = '<div class="card" style="text-align: center;"><p>📭 لا توجد فيديوهات متاحة حالياً لهذا الشهر</p></div>';
+            const coursesMap = {};
+            videos.forEach(v => {
+                if (!coursesMap[v.month_id]) {
+                    coursesMap[v.month_id] = {
+                        monthId: v.month_id,
+                        monthName: v.month_id === 'month1' ? 'الشهر الأول' : (v.month_id === 'month2' ? 'الشهر الثاني' : (v.month_id === 'month3' ? 'الشهر الثالث' : v.month_id)),
+                        price: 0,
+                        videos: []
+                    };
+                }
+                coursesMap[v.month_id].videos.push(v);
+            });
+            for (let m in coursesMap) {
+                const priceRes = await fetch(`${API_URL}/get-price/${user.gradeId}/${m}`);
+                const priceData = await priceRes.json();
+                coursesMap[m].price = priceData.price || 0;
+            }
+            allCourses = Object.values(coursesMap);
+            displayCourses();
+        }
+
+        function displayCourses() {
+            const container = document.getElementById('monthsGrid');
+            let filteredCourses = allCourses;
+            if (currentCoursesTab === 'subscribed') {
+                filteredCourses = allCourses.filter(c => purchased[`${user.gradeId}_${c.monthId}`]);
+            }
+            
+            if (filteredCourses.length === 0) {
+                container.innerHTML = '<div class="card" style="text-align: center;"><p>📭 لا توجد كورسات في هذا القسم</p></div>';
                 return;
             }
+            
+            container.innerHTML = filteredCourses.map(course => `
+                <div class="month-card ${purchased[`${user.gradeId}_${course.monthId}`] ? 'paid' : ''}" onclick="openCourse('${course.monthId}', '${course.monthName}')">
+                    <h4>${course.monthName}</h4>
+                    <div class="month-price">${course.price} جنيه</div>
+                    ${purchased[`${user.gradeId}_${course.monthId}`] ? 
+                        '<div class="paid-badge">✓ تم الدفع</div>' : 
+                        '<button class="pay-btn" onclick="event.stopPropagation(); startPayment(\'' + user.gradeId + '\', \'' + user.gradeName + '\', \'' + course.monthId + '\', \'' + course.monthName + '\', ' + course.price + ')"><i class="fas fa-shopping-cart"></i> اشترك الآن</button>'
+                    }
+                </div>
+            `).join('');
+        }
+
+        async function openCourse(monthId, monthName) {
+            if (!purchased[`${user.gradeId}_${monthId}`]) {
+                alert('❌ يرجى دفع قيمة الاشتراك أولاً لمشاهدة المحتوى');
+                return;
+            }
+            currentCourseId = monthId;
+            document.getElementById('coursesContainer').style.display = 'none';
+            document.getElementById('videosContainer').style.display = 'block';
+            
+            const response = await fetch(`${API_URL}/videos/${user.gradeId}/${monthId}`);
+            const videos = await response.json();
+            const container = document.getElementById('videosGrid');
             
             const quizStatus = {};
             for (let v of videos) {
@@ -446,87 +458,66 @@
             `).join('');
         }
 
-        async function loadFiles() {
-            const response = await fetch(`${API_URL}/files/${currentGrade}/${currentMonth}`);
-            const files = await response.json();
-            const container = document.getElementById('filesGrid');
-            if (files.length === 0) {
-                container.innerHTML = '<div class="card" style="text-align: center;"><p>📭 لا توجد ملفات متاحة حالياً لهذا الشهر</p></div>';
-                return;
-            }
-            container.innerHTML = files.map(f => `
-                <div class="file-card" onclick="window.open('${f.file_url}', '_blank')">
-                    <i class="fas fa-file-pdf"></i>
-                    <h4>${f.title}</h4>
-                    <small>ملف تعليمي</small>
-                </div>
-            `).join('');
+        function backToCourses() {
+            document.getElementById('coursesContainer').style.display = 'block';
+            document.getElementById('videosContainer').style.display = 'none';
+            displayCourses();
         }
 
-        window.checkAndPlayVideo = async function(videoId, videoTitle, videoUrl) {
+        function showCoursesTab(tab) {
+            currentCoursesTab = tab;
+            document.querySelectorAll('.courses-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('coursesTitle').innerHTML = tab === 'all' ? 'كل الكورسات' : 'الكورسات المشترك فيها';
+            displayCourses();
+        }
+
+        async function checkAndPlayVideo(videoId, videoTitle, videoUrl) {
             const checkRes = await fetch(`${API_URL}/check-quiz-passed?userId=${user.id}&videoId=${videoId}`);
             const checkData = await checkRes.json();
-            
             if (checkData.passed) {
                 window.open(videoUrl, '_blank');
             } else {
                 await loadQuiz(videoId, videoTitle);
             }
-        };
+        }
 
         async function loadQuiz(videoId, videoTitle) {
             currentVideoId = videoId;
             const response = await fetch(`${API_URL}/get-quiz/${videoId}`);
             const data = await response.json();
-            
             if (!data.questions || data.questions.length === 0) {
                 alert('لا يوجد كويز لهذا الفيديو. يمكنك المشاهدة مباشرة.');
-                const videoRes = await fetch(`${API_URL}/videos/${currentGrade}/${currentMonth}`);
-                const videos = await videoRes.json();
-                const video = videos.find(v => v.id === videoId);
-                if (video) window.open(video.video_url, '_blank');
                 return;
             }
-            
             currentQuizQuestions = data.questions;
             currentQuizAnswers = {};
-            
             const quizContainer = document.getElementById('quizQuestions');
             let html = '';
             currentQuizQuestions.forEach((q, idx) => {
-                html += `
-                    <div class="quiz-question">
-                        <p>${idx + 1}. ${q.question}</p>
-                        <label><input type="radio" name="q${idx}" value="a" onchange="saveAnswer(${idx}, 'a')"> ${q.option_a}</label>
-                        <label><input type="radio" name="q${idx}" value="b" onchange="saveAnswer(${idx}, 'b')"> ${q.option_b}</label>
-                        <label><input type="radio" name="q${idx}" value="c" onchange="saveAnswer(${idx}, 'c')"> ${q.option_c}</label>
-                        <label><input type="radio" name="q${idx}" value="d" onchange="saveAnswer(${idx}, 'd')"> ${q.option_d}</label>
-                    </div>
-                `;
+                html += `<div class="quiz-question"><p>${idx + 1}. ${q.question}</p>
+                    <label><input type="radio" name="q${idx}" value="a" onchange="saveAnswer(${idx}, 'a')"> ${q.option_a}</label>
+                    <label><input type="radio" name="q${idx}" value="b" onchange="saveAnswer(${idx}, 'b')"> ${q.option_b}</label>
+                    <label><input type="radio" name="q${idx}" value="c" onchange="saveAnswer(${idx}, 'c')"> ${q.option_c}</label>
+                    <label><input type="radio" name="q${idx}" value="d" onchange="saveAnswer(${idx}, 'd')"> ${q.option_d}</label></div>`;
             });
             quizContainer.innerHTML = html;
             document.getElementById('quizModal').classList.remove('hidden');
-            document.getElementById('quizMsg').innerHTML = '';
         }
 
-        window.saveAnswer = function(questionIndex, answer) {
-            currentQuizAnswers[questionIndex] = answer;
-        };
+        function saveAnswer(questionIndex, answer) { currentQuizAnswers[questionIndex] = answer; }
 
-        window.submitQuiz = async function() {
+        async function submitQuiz() {
             let score = 0;
             for (let i = 0; i < currentQuizQuestions.length; i++) {
-                if (currentQuizAnswers[i] === currentQuizQuestions[i].correct_answer) {
-                    score++;
-                }
+                if (currentQuizAnswers[i] === currentQuizQuestions[i].correct_answer) score++;
             }
             const total = currentQuizQuestions.length;
             const percentage = (score / total) * 100;
             const passed = percentage >= 50;
             
             await fetch(`${API_URL}/save-quiz-result`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user.id, videoId: currentVideoId, score: score, total: total, passed: passed })
             });
             
@@ -534,41 +525,36 @@
                 document.getElementById('quizMsg').innerHTML = '<div style="color: #00ff88;">✅ تهانينا! اجتزت الكويز بنسبة ' + percentage + '%</div>';
                 setTimeout(() => {
                     document.getElementById('quizModal').classList.add('hidden');
-                    loadVideos();
-                    const videoRes = fetch(`${API_URL}/videos/${currentGrade}/${currentMonth}`).then(r => r.json()).then(videos => {
-                        const video = videos.find(v => v.id === currentVideoId);
-                        if (video) window.open(video.video_url, '_blank');
-                    });
+                    openCourse(currentCourseId, '');
                 }, 2000);
             } else {
                 document.getElementById('quizMsg').innerHTML = '<div style="color: #ff4444;">❌ للأسف، لم تجتز الكويز (نسبتك ' + percentage + '%). أعد المحاولة.</div>';
             }
-        };
+        }
 
-        window.showContentTab = function(tab) {
-            currentContentTab = tab;
-            document.querySelectorAll('.content-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            if (tab === 'videos') {
-                document.getElementById('videosGrid').style.display = 'grid';
-                document.getElementById('filesGrid').style.display = 'none';
+        function showSection(section) {
+            const profileDiv = document.getElementById('profileSection');
+            const coursesDiv = document.getElementById('coursesSection');
+            if (section === 'profile') {
+                profileDiv.style.display = 'block';
+                coursesDiv.style.display = 'none';
             } else {
-                document.getElementById('videosGrid').style.display = 'none';
-                document.getElementById('filesGrid').style.display = 'grid';
+                profileDiv.style.display = 'none';
+                coursesDiv.style.display = 'block';
             }
-        };
+        }
 
-        window.startPayment = function(gradeId, gradeName, monthId, monthName, price) {
+        function startPayment(gradeId, gradeName, monthId, monthName, price) {
             pendingGrade = gradeId; pendingMonth = monthId; pendingPrice = price;
             pendingGradeName = gradeName; pendingMonthName = monthName;
             document.getElementById('paymentInfo').innerHTML = `${gradeName} - ${monthName}`;
             document.getElementById('paymentAmount').innerHTML = `${price} جنيه`;
             document.getElementById('paymentModal').classList.remove('hidden');
-        };
+        }
 
-        window.closePaymentModal = function() { document.getElementById('paymentModal').classList.add('hidden'); document.getElementById('paymentMsg').innerHTML = ''; };
+        function closePaymentModal() { document.getElementById('paymentModal').classList.add('hidden'); document.getElementById('paymentMsg').innerHTML = ''; }
 
-        window.confirmPayment = async function() {
+        async function confirmPayment() {
             document.getElementById('paymentMsg').innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
             const res = await fetch(`${API_URL}/process-payment`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -578,16 +564,13 @@
             if (data.success) {
                 purchased[`${pendingGrade}_${pendingMonth}`] = true;
                 document.getElementById('paymentMsg').innerHTML = '<i class="fas fa-check-circle"></i> ✅ تم الدفع بنجاح!';
-                setTimeout(() => { closePaymentModal(); openGrade(pendingGrade, pendingGradeName); loadStudentData(); }, 1500);
+                setTimeout(() => { closePaymentModal(); displayCourses(); loadStudentData(); }, 1500);
             } else { document.getElementById('paymentMsg').innerHTML = '<i class="fas fa-times-circle"></i> ❌ ' + data.message; }
-        };
-
-        window.backToGrades = function() { document.getElementById('monthsContainer').style.display = 'none'; document.getElementById('gradesContainer').style.display = 'grid'; };
-        window.backToMonths = function() { document.getElementById('contentContainer').style.display = 'none'; document.getElementById('monthsContainer').style.display = 'block'; };
+        }
 
         let currentRating = 0;
-        window.setRating = function(r) { currentRating = r; };
-        window.submitEval = async function() {
+        function setRating(r) { currentRating = r; }
+        async function submitEval() {
             const comment = document.getElementById('comment').value;
             if (!comment || currentRating === 0) { alert('❌ اكتب تقييمك واختر عدد النجوم'); return; }
             await fetch(`${API_URL}/evaluation`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: user.id, rating: currentRating, comment }) });
@@ -595,30 +578,20 @@
             document.getElementById('comment').value = '';
             currentRating = 0;
             loadStudentData();
-        };
+        }
 
         document.getElementById('logoutButton').addEventListener('click', logout);
         
-        // ============= إخفاء وإظهار شريط التنقل عند التمرير =============
         let lastScrollTop = 0;
         const bottomNav = document.querySelector('.bottom-nav');
-        const scrollThreshold = 50;
-
         window.addEventListener('scroll', function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
-                if (scrollTop > lastScrollTop) {
-                    bottomNav.classList.add('hide');
-                    bottomNav.classList.remove('show');
-                } else {
-                    bottomNav.classList.remove('hide');
-                    bottomNav.classList.add('show');
-                }
+            if (Math.abs(scrollTop - lastScrollTop) > 50) {
+                if (scrollTop > lastScrollTop) { bottomNav.classList.add('hide'); bottomNav.classList.remove('show'); }
+                else { bottomNav.classList.remove('hide'); bottomNav.classList.add('show'); }
                 lastScrollTop = scrollTop;
             }
         });
-        
         bottomNav.classList.add('show');
         
         loadUser();

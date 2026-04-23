@@ -44,7 +44,10 @@
         }
         .input-group:focus-within { border-color: #8a2be2; box-shadow: 0 0 15px rgba(138,43,226,0.3); }
         .input-group i { color: #8a2be2; font-size: 18px; margin-left: 15px; }
-        .input-group input { flex: 1; padding: 16px 0; background: transparent; border: none; color: white; font-size: 16px; }
+        .input-group input, .input-group select {
+            flex: 1; padding: 16px 0; background: transparent; border: none; color: white; font-size: 16px;
+        }
+        .input-group select option { background: #1a1a2e; color: white; }
         .input-group input::placeholder { color: rgba(255,255,255,0.5); }
         .btn {
             width: 100%; padding: 15px; background: linear-gradient(135deg, #8a2be2, #00bfff);
@@ -58,8 +61,6 @@
         @keyframes fadeSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .error-msg { color: #ff6b6b; text-align: center; margin-top: 15px; font-size: 14px; }
         .vertical-names { display: flex; flex-direction: column; gap: 8px; }
-
-        /* ============= تذييل الصفحة ============= */
         .footer {
             margin-top: 30px;
             padding: 30px 20px;
@@ -86,8 +87,6 @@
         .social-link.email:hover { background: #EA4335; color: white; }
         .developer { color: rgba(255, 255, 255, 0.4); font-size: 11px; margin-top: 15px; }
         .developer a { color: #ffd700; text-decoration: none; }
-        .developer a:hover { text-decoration: underline; }
-
         @media (max-width: 550px) { .container { padding: 30px 25px; } .tab-btn { font-size: 14px; } }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -120,6 +119,11 @@
             <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="regEmail" placeholder="البريد الإلكتروني (اختياري)"></div>
             <div class="input-group"><i class="fas fa-mobile-alt"></i><input type="tel" id="studentPhone" placeholder="رقم الطالب (اختياري)"></div>
             <div class="input-group"><i class="fas fa-users"></i><input type="tel" id="parentPhone" placeholder="رقم ولي الأمر (اختياري)"></div>
+            <div class="input-group"><i class="fas fa-graduation-cap"></i>
+                <select id="regGrade">
+                    <option value="">اختر صفك الدراسي</option>
+                </select>
+            </div>
             <div class="input-group"><i class="fas fa-key"></i><input type="password" id="regPassword" placeholder="كلمة المرور"></div>
             <div id="registerError" class="error-msg"></div>
             <button class="btn" onclick="register()"><span>إنشاء حساب</span><i class="fas fa-check-circle"></i></button>
@@ -129,35 +133,46 @@
     <div class="footer">
         <div class="footer-content">
             <div class="social-links">
-                <a href="https://wa.me/201007073446" target="_blank" class="social-link whatsapp">
-                    <i class="fab fa-whatsapp"></i> واتساب
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=10007073446" target="_blank" class="social-link facebook">
-                    <i class="fab fa-facebook"></i> فيسبوك
-                </a>
-                <a href="mailto:admin@oufq.com" class="social-link email">
-                    <i class="fas fa-envelope"></i> البريد الإلكتروني
-                </a>
+                <a href="https://wa.me/201007073446" target="_blank" class="social-link whatsapp"><i class="fab fa-whatsapp"></i> واتساب</a>
+                <a href="https://www.facebook.com/profile.php?id=10007073446" target="_blank" class="social-link facebook"><i class="fab fa-facebook"></i> فيسبوك</a>
+                <a href="mailto:admin@oufq.com" class="social-link email"><i class="fas fa-envelope"></i> البريد الإلكتروني</a>
             </div>
-            <div class="copyright">
-                <i class="fas fa-copyright"></i> 2025 منصة أُفق - جميع الحقوق محفوظة
-            </div>
-            <div class="developer">
-                تطوير <a href="#">مبرمج المنصة</a> | تصميم وبرمجة منصة تعليمية متكاملة
-            </div>
+            <div class="copyright"><i class="fas fa-copyright"></i> 2025 منصة أُفق - جميع الحقوق محفوظة</div>
+            <div class="developer">تطوير <a href="#">مبرمج المنصة</a> | تصميم وبرمجة منصة تعليمية متكاملة</div>
         </div>
     </div>
 
     <script>
         const API_URL = 'http://localhost:5000/api';
+        let gradesList = [];
 
         function getDeviceFingerprint() {
             let fingerprint = localStorage.getItem('device_fingerprint');
             if (!fingerprint) {
-                fingerprint = 'dev_' + Math.random().toString(36).substr(2, 15);
+                const userAgent = navigator.userAgent;
+                const screenRes = `${screen.width}x${screen.height}x${screen.colorDepth}`;
+                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const language = navigator.language;
+                const platform = navigator.platform;
+                
+                fingerprint = `dev_${userAgent.substring(0, 50)}_${screenRes}_${timeZone}_${language}_${platform}_${Date.now()}`;
+                fingerprint = fingerprint.replace(/[^a-zA-Z0-9_]/g, '_').substring(0, 150);
                 localStorage.setItem('device_fingerprint', fingerprint);
             }
             return fingerprint;
+        }
+
+        async function loadGrades() {
+            try {
+                const response = await fetch(`${API_URL}/grades`);
+                const data = await response.json();
+                gradesList = data;
+                const select = document.getElementById('regGrade');
+                select.innerHTML = '<option value="">اختر صفك الدراسي</option>' + 
+                    gradesList.map(g => `<option value="${g.id}|${g.name}">${g.name}</option>`).join('');
+            } catch(e) {
+                console.error('خطأ في جلب الصفوف');
+            }
         }
 
         document.getElementById('showLoginBtn').onclick = () => {
@@ -173,6 +188,7 @@
             document.getElementById('showLoginBtn').classList.remove('active');
             document.getElementById('showRegisterBtn').classList.add('active');
             document.getElementById('registerError').innerText = '';
+            loadGrades();
         };
 
         async function register() {
@@ -184,18 +200,21 @@
             const email = document.getElementById('regEmail').value.trim();
             const studentPhone = document.getElementById('studentPhone').value.trim();
             const parentPhone = document.getElementById('parentPhone').value.trim();
+            const gradeValue = document.getElementById('regGrade').value;
             const password = document.getElementById('regPassword').value.trim();
 
-            if (!firstName || !secondName || !thirdName || !lastName || !phone || !password) {
-                document.getElementById('registerError').innerText = '❌ الاسم الرباعي ورقم الهاتف وكلمة المرور مطلوبة';
+            if (!firstName || !secondName || !thirdName || !lastName || !phone || !gradeValue || !password) {
+                document.getElementById('registerError').innerText = '❌ الاسم الرباعي ورقم الهاتف والصف وكلمة المرور مطلوبة';
                 return;
             }
+
+            const [gradeId, gradeName] = gradeValue.split('|');
 
             try {
                 const response = await fetch(`${API_URL}/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ firstName, secondName, thirdName, lastName, phone, email, studentPhone, parentPhone, password })
+                    body: JSON.stringify({ firstName, secondName, thirdName, lastName, phone, email, studentPhone, parentPhone, gradeId, gradeName, password })
                 });
                 const data = await response.json();
                 if (response.ok) {
@@ -239,9 +258,11 @@
                     document.getElementById('loginError').innerText = '❌ ' + data.error;
                 }
             } catch (error) {
-                document.getElementById('loginError').innerText = '❌ خطأ في الاتصال';
+                document.getElementById('loginError').innerText = '❌ خطأ في الاتصال: ' + error.message;
             }
         }
+
+        loadGrades();
     </script>
 </body>
 </html>
