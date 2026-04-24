@@ -370,7 +370,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:5000/api';
+        const API_URL = 'https://footboard-configure-amid.ngrok-free.dev';
         let user = null;
         let deviceCheckInterval = null;
         let selectedGrade = null, selectedMonth = null;
@@ -404,7 +404,8 @@
             if (!token) return false;
             try {
                 const response = await fetch(`${API_URL}/check-device`, { 
-                    headers: { 'Authorization': `Bearer ${token}` } 
+            headers: {
+                        'ngrok-skip-browser-warning': 'true'
                 });
                 const data = await response.json();
                 if (!data.valid) {
@@ -515,7 +516,8 @@
             
             const response = await fetch(`${API_URL}/admin/add-month`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers:  {
+                        'ngrok-skip-browser-warning': 'true' },
                 body: JSON.stringify({ monthId, name, orderNum: parseInt(orderNum) })
             });
             const data = await response.json();
@@ -537,7 +539,8 @@
             if (!confirm('هل أنت متأكد من حذف هذا الشهر؟')) return;
             const response = await fetch(`${API_URL}/admin/delete-month`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers:  {
+                        'ngrok-skip-browser-warning': 'true' },
                 body: JSON.stringify({ monthId })
             });
             const data = await response.json();
@@ -570,7 +573,7 @@
             
             const response = await fetch(`${API_URL}/admin/add-video`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'ngrok-skip-browser-warning': 'true' },
                 body: JSON.stringify({
                     gradeId: selectedGrade,
                     monthId: selectedMonth,
@@ -624,7 +627,7 @@
             
             const response = await fetch(`${API_URL}/admin/add-file`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'ngrok-skip-browser-warning': 'true' },
                 body: JSON.stringify({
                     gradeId: selectedFileGrade,
                     monthId: selectedFileMonth,
@@ -703,7 +706,7 @@
                 });
             });
             if (questions.length === 0) { alert('أضف سؤالاً واحداً على الأقل'); return; }
-            const response = await fetch(`${API_URL}/admin/save-quiz`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ videoId: currentVideoId, questions }) });
+            const response = await fetch(`${API_URL}/admin/save-quiz`, { method: 'POST', headers: { 'ngrok-skip-browser-warning': 'true' }, body: JSON.stringify({ videoId: currentVideoId, questions }) });
             const data = await response.json();
             document.getElementById('quizMsg').innerHTML = data.success ? '<div class="success-msg">✅ تم حفظ الكويز</div>' : '<div class="error-msg">❌ خطأ</div>';
             setTimeout(() => document.getElementById('quizMsg').innerHTML = '', 3000);
@@ -726,7 +729,7 @@
                 const key = inp.id.replace('price_', '');
                 prices[key] = parseInt(inp.value);
             });
-            const response = await fetch(`${API_URL}/admin/update-prices`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prices }) });
+            const response = await fetch(`${API_URL}/admin/update-prices`, { method: 'POST', headers: { 'ngrok-skip-browser-warning': 'true' }, body: JSON.stringify({ prices }) });
             const data = await response.json();
             document.getElementById('priceMsg').innerHTML = data.success ? '<div class="success-msg">✅ تم حفظ الأسعار</div>' : '<div class="error-msg">❌ خطأ</div>';
             setTimeout(() => document.getElementById('priceMsg').innerHTML = '', 3000);
