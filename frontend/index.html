@@ -164,7 +164,11 @@
 
         async function loadGrades() {
             try {
-                const response = await fetch(`${API_URL}/grades`);
+                const response = await fetch(`${API_URL}/grades`, {
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
                 const data = await response.json();
                 gradesList = data;
                 const select = document.getElementById('regGrade');
@@ -213,7 +217,10 @@
             try {
                 const response = await fetch(`${API_URL}/register`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
                     body: JSON.stringify({ firstName, secondName, thirdName, lastName, phone, email, studentPhone, parentPhone, gradeId, gradeName, password })
                 });
                 const data = await response.json();
@@ -242,7 +249,10 @@
             try {
                 const response = await fetch(`${API_URL}/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
                     body: JSON.stringify({ phone, password, deviceId })
                 });
                 const data = await response.json();
