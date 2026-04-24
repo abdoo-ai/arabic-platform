@@ -64,7 +64,7 @@
         }
         .grade-option:hover { background: rgba(138,43,226,0.4); transform: scale(1.02); }
         .grade-option.selected { background: linear-gradient(135deg, #8a2be2, #00bfff); box-shadow: 0 3px 10px rgba(138,43,226,0.3); }
-        .month-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 15px 0; }
+        .month-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin: 15px 0; }
         .month-btn {
             background: rgba(255,255,255,0.08); border-radius: 50px; padding: 10px;
             text-align: center; cursor: pointer; transition: all 0.3s;
@@ -169,7 +169,7 @@
 
         @media (max-width: 768px) {
             .grade-buttons { grid-template-columns: 1fr; }
-            .month-group { grid-template-columns: 1fr; }
+            .month-group { grid-template-columns: repeat(2, 1fr); }
             .header { flex-direction: column; gap: 15px; text-align: center; }
             .student-header { flex-direction: column; align-items: flex-start; }
         }
@@ -186,6 +186,7 @@
             <div class="tab active" onclick="showTab('videos')"><i class="fas fa-video"></i> الفيديوهات</div>
             <div class="tab" onclick="showTab('files')"><i class="fas fa-file"></i> الملفات</div>
             <div class="tab" onclick="showTab('quiz')"><i class="fas fa-puzzle-piece"></i> الكويزات</div>
+            <div class="tab" onclick="showTab('months')"><i class="fas fa-calendar-alt"></i> الأشهر</div>
             <div class="tab" onclick="showTab('prices')"><i class="fas fa-dollar-sign"></i> الأسعار</div>
             <div class="tab" onclick="showTab('students')"><i class="fas fa-users"></i> الطلاب</div>
         </div>
@@ -233,10 +234,8 @@
 
                 <div class="grade-group">
                     <h4><i class="fas fa-calendar-alt"></i> اختيار الشهر</h4>
-                    <div class="month-group">
-                        <div class="month-btn" data-month="month1" onclick="selectMonth('month1')">📅 الشهر الأول</div>
-                        <div class="month-btn" data-month="month2" onclick="selectMonth('month2')">📅 الشهر الثاني</div>
-                        <div class="month-btn" data-month="month3" onclick="selectMonth('month3')">📅 الشهر الثالث</div>
+                    <div class="month-group" id="monthGroup">
+                        <!-- سيتم تعبئتها بواسطة JavaScript -->
                     </div>
                 </div>
 
@@ -288,10 +287,8 @@
 
                 <div class="grade-group">
                     <h4><i class="fas fa-calendar-alt"></i> اختيار الشهر</h4>
-                    <div class="month-group">
-                        <div class="month-btn" data-month-f="month1" onclick="selectFileMonth('month1')">📅 الشهر الأول</div>
-                        <div class="month-btn" data-month-f="month2" onclick="selectFileMonth('month2')">📅 الشهر الثاني</div>
-                        <div class="month-btn" data-month-f="month3" onclick="selectFileMonth('month3')">📅 الشهر الثالث</div>
+                    <div class="month-group" id="fileMonthGroup">
+                        <!-- سيتم تعبئتها بواسطة JavaScript -->
                     </div>
                 </div>
 
@@ -316,6 +313,25 @@
                 <button onclick="addQuestion()"><i class="fas fa-plus"></i> إضافة سؤال</button>
                 <button onclick="saveQuiz()" style="margin-right: 10px;"><i class="fas fa-save"></i> حفظ الكويز</button>
                 <div id="quizMsg"></div>
+            </div>
+        </div>
+
+        <!-- تبويب الأشهر -->
+        <div id="monthsTab" class="tab-content">
+            <div class="card">
+                <h3><i class="fas fa-calendar-plus"></i> إضافة شهر جديد</h3>
+                <div class="row" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <input type="text" id="newMonthId" placeholder="معرف الشهر (مثال: month4)" style="flex:1;">
+                    <input type="text" id="newMonthName" placeholder="اسم الشهر (مثال: الشهر الرابع)" style="flex:1;">
+                    <input type="number" id="newMonthOrder" placeholder="الترتيب" value="4" style="width: 100px;">
+                </div>
+                <button onclick="addNewMonth()"><i class="fas fa-plus"></i> إضافة شهر</button>
+                <div id="addMonthMsg"></div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-list"></i> قائمة الأشهر</h3>
+                <div id="monthsList"></div>
             </div>
         </div>
 
@@ -361,7 +377,6 @@
         let selectedFileGrade = null, selectedFileMonth = null;
         let allStudents = [];
 
-        // ============= دالة الحصول على بصمة الجهاز (محسنة) =============
         function getDeviceFingerprint() {
             let fingerprint = localStorage.getItem('device_fingerprint');
             if (!fingerprint) {
@@ -370,7 +385,6 @@
                 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
                 const language = navigator.language;
                 const platform = navigator.platform;
-                
                 fingerprint = `dev_${userAgent.substring(0, 50)}_${screenRes}_${timeZone}_${language}_${platform}_${Date.now()}`;
                 fingerprint = fingerprint.replace(/[^a-zA-Z0-9_]/g, '_').substring(0, 150);
                 localStorage.setItem('device_fingerprint', fingerprint);
@@ -403,7 +417,9 @@
 
         function startDeviceMonitoring() {
             if (deviceCheckInterval) clearInterval(deviceCheckInterval);
-            deviceCheckInterval = setInterval(async () => { await checkDeviceValidity(); }, 5000);
+            deviceCheckInterval = setInterval(async () => { 
+                await checkDeviceValidity(); 
+            }, 3000);
         }
 
         function stopDeviceMonitoring() {
@@ -424,7 +440,7 @@
 
         function selectMonth(month) {
             selectedMonth = month;
-            document.querySelectorAll('[data-month]').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('.month-btn').forEach(btn => btn.classList.remove('selected'));
             event.target.classList.add('selected');
         }
 
@@ -436,7 +452,7 @@
 
         function selectFileMonth(month) {
             selectedFileMonth = month;
-            document.querySelectorAll('[data-month-f]').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('#fileMonthGroup .month-btn').forEach(btn => btn.classList.remove('selected'));
             event.target.classList.add('selected');
         }
 
@@ -447,10 +463,92 @@
             document.getElementById(`${tab}Tab`).classList.add('active');
             if (tab === 'prices') loadPrices();
             if (tab === 'students') loadStudents();
-            if (tab === 'videos') loadVideos();
-            if (tab === 'files') loadFiles();
+            if (tab === 'videos') { loadVideos(); loadMonthsForVideo(); }
+            if (tab === 'files') { loadFiles(); loadMonthsForFile(); }
             if (tab === 'quiz') loadQuizSelect();
+            if (tab === 'months') { loadMonthsList(); }
             startDeviceMonitoring();
+        }
+
+        async function loadMonthsForVideo() {
+            const response = await fetch(`${API_URL}/admin/months`);
+            const months = await response.json();
+            const container = document.getElementById('monthGroup');
+            container.innerHTML = months.map(m => `
+                <div class="month-btn" data-month="${m.month_id}" onclick="selectMonth('${m.month_id}')">📅 ${m.name}</div>
+            `).join('');
+        }
+
+        async function loadMonthsForFile() {
+            const response = await fetch(`${API_URL}/admin/months`);
+            const months = await response.json();
+            const container = document.getElementById('fileMonthGroup');
+            container.innerHTML = months.map(m => `
+                <div class="month-btn" data-month="${m.month_id}" onclick="selectFileMonth('${m.month_id}')">📅 ${m.name}</div>
+            `).join('');
+        }
+
+        // ============= إدارة الأشهر =============
+        async function loadMonthsList() {
+            const response = await fetch(`${API_URL}/admin/months`);
+            const months = await response.json();
+            const container = document.getElementById('monthsList');
+            container.innerHTML = months.map(m => `
+                <div class="item-list">
+                    <span><strong>${m.name}</strong> (${m.month_id}) - ترتيب: ${m.order_num || 0}</span>
+                    ${m.month_id !== 'month1' && m.month_id !== 'month2' && m.month_id !== 'month3' ? 
+                        `<button onclick="deleteMonth('${m.month_id}')" style="background:#ff4444;"><i class="fas fa-trash"></i> حذف</button>` : 
+                        '<span style="color:#888;">شهر أساسي لا يمكن حذفه</span>'}
+                </div>
+            `).join('');
+        }
+
+        async function addNewMonth() {
+            const monthId = document.getElementById('newMonthId').value.trim();
+            const name = document.getElementById('newMonthName').value.trim();
+            const orderNum = document.getElementById('newMonthOrder').value;
+            
+            if (!monthId || !name) {
+                document.getElementById('addMonthMsg').innerHTML = '<div class="error-msg">❌ معرف الشهر واسم الشهر مطلوبان</div>';
+                return;
+            }
+            
+            const response = await fetch(`${API_URL}/admin/add-month`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ monthId, name, orderNum: parseInt(orderNum) })
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('addMonthMsg').innerHTML = '<div class="success-msg">✅ تم إضافة الشهر بنجاح</div>';
+                document.getElementById('newMonthId').value = '';
+                document.getElementById('newMonthName').value = '';
+                loadMonthsList();
+                loadMonthsForVideo();
+                loadMonthsForFile();
+                loadPrices();
+            } else {
+                document.getElementById('addMonthMsg').innerHTML = '<div class="error-msg">❌ ' + data.error + '</div>';
+            }
+        }
+
+        async function deleteMonth(monthId) {
+            if (!confirm('هل أنت متأكد من حذف هذا الشهر؟')) return;
+            const response = await fetch(`${API_URL}/admin/delete-month`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ monthId })
+            });
+            const data = await response.json();
+            if (data.success) {
+                loadMonthsList();
+                loadMonthsForVideo();
+                loadMonthsForFile();
+                loadPrices();
+            } else {
+                alert('خطأ في الحذف');
+            }
         }
 
         // ============= الفيديوهات =============
@@ -628,8 +726,9 @@
                 const key = inp.id.replace('price_', '');
                 prices[key] = parseInt(inp.value);
             });
-            await fetch(`${API_URL}/admin/update-prices`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prices }) });
-            document.getElementById('priceMsg').innerHTML = '<div class="success-msg">✅ تم حفظ الأسعار</div>';
+            const response = await fetch(`${API_URL}/admin/update-prices`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prices }) });
+            const data = await response.json();
+            document.getElementById('priceMsg').innerHTML = data.success ? '<div class="success-msg">✅ تم حفظ الأسعار</div>' : '<div class="error-msg">❌ خطأ</div>';
             setTimeout(() => document.getElementById('priceMsg').innerHTML = '', 3000);
         }
 
@@ -694,9 +793,7 @@
                         </div>
                     </div>
                     <div class="exam-results" id="examResults-${s.id}">
-                        <div style="margin-bottom: 10px; font-weight: bold; color: #ffd700;">
-                            <i class="fas fa-chart-line"></i> نتائج الاختبارات
-                        </div>
+                        <div style="margin-bottom: 10px; font-weight: bold; color: #ffd700;"><i class="fas fa-chart-line"></i> نتائج الاختبارات</div>
                         ${renderExamResults(s.examResults)}
                     </div>
                 </div>
@@ -738,6 +835,9 @@
         loadVideos(); 
         loadQuizSelect(); 
         loadFiles();
+        loadMonthsForVideo();
+        loadMonthsForFile();
+        loadMonthsList();
     </script>
 </body>
 </html>
